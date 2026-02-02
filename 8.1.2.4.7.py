@@ -18,5 +18,5 @@ while count <= 9:
     if user_num == count:
         print("The User variable is equal to the count variable.")
         print("Count =", count)
-        pirnt("user_num =", user_num)
+        print("user_num =", user_num)
         continue
