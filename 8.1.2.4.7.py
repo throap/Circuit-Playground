@@ -1,6 +1,7 @@
 while True:
     try:
-      user_num = int(input("enter an integer from 0 to 9"))
+      print("enter an integer from 0 to 9")
+      user_num = int(input())
       if 0 <= user_num <= 9:
           break
       else:
