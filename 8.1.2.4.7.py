@@ -1,0 +1,22 @@
+while True:
+    try:
+      user_num = int(input("enter an integer from 0 to 9"))
+      if 0 <= user_num <= 9:
+          break
+      else:
+            print("number must be between 0 and 9.")
+
+    except ValueError:
+      print("Invalid input, please enter an ingteger")
+
+count = 0
+print("Starting While Loop - Comparing User & Count Variable")
+
+while count <= 9:
+    print(count)
+    count += 1
+    if user_num == count:
+        print("The User variable is equal to the count variable.")
+        print("Count =", count)
+        pirnt("user_num =", user_num)
+        continue
