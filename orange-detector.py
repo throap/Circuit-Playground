@@ -31,7 +31,7 @@ ULTRASONIC_TRIG   = 23
 ULTRASONIC_ECHO   = 24
 
 DEFAULT_SPEED      = 0.75
-OBSTACLE_DISTANCE  = 8.0   # cm — tightened: was 25 cm, rover was stopping way too early
+OBSTACLE_DISTANCE  = 3.0   # cm — tightened: was 25 cm, rover was stopping way too early
 AVOID_BACKUP_TIME  = 0.6
 AVOID_TURN_TIME    = 0.45
 
@@ -40,19 +40,19 @@ AVOID_TURN_TIME    = 0.45
 # Removed the 160-180 wrap-around band — that was the main source of red confusion.
 # Raised saturation floor to 180 and value floor to 120 so dim/dark reds are rejected.
 # If your cone still isn't detected, lower ORANGE_LOWER1[1] toward 150.
-ORANGE_LOWER1 = np.array([  5, 160, 150])
-ORANGE_UPPER1 = np.array([ 20, 255, 255])
-ORANGE_LOWER2 = np.array([  5, 160, 150])
-ORANGE_UPPER2 = np.array([ 20, 255, 255])
+ORANGE_LOWER1 = np.array([  3, 130, 110])
+ORANGE_UPPER1 = np.array([ 25, 255, 255])
+ORANGE_LOWER2 = np.array([  3, 130, 110])
+ORANGE_UPPER2 = np.array([ 25, 255, 255])
 
 MIN_CONE_AREA = 1500
 FRAME_W         = 640
 FRAME_H         = 480
 
 # Cone-tracking PID-ish constants
-CENTRE_DEADBAND    = 30      # px — if cone cx is within this of frame centre, go straight
-APPROACH_STOP_AREA = 70000   # px² — was 22000; rover now drives until cone is large/close
-SEARCH_TURN_SPEED  = 0.25
+CENTRE_DEADBAND    = 8      # px — if cone cx is within this of frame centre, go straight
+APPROACH_STOP_AREA = 120000   # px² — was 22000; rover now drives until cone is large/close
+SEARCH_TURN_SPEED  = 0.18
 APPROACH_SPEED     = 0.55
 STEER_CORRECTION   = 0.20   # speed delta applied to slow the inner wheel
 
@@ -228,7 +228,7 @@ latest_distance  = 999.0
 def run_avoidance_sequence():
     global avoidance_active, current_command
     try:
-        led.on(); stop(); sleep(0.15)
+        led.on(); stop(); sleep(0.4)
         set_motors(-DEFAULT_SPEED, -DEFAULT_SPEED); sleep(AVOID_BACKUP_TIME)
         set_motors( DEFAULT_SPEED, -DEFAULT_SPEED); sleep(AVOID_TURN_TIME)
         stop(); current_command = 'stop'
@@ -247,8 +247,8 @@ def autonomous_loop():
     global _auto_state, latest_distance
     _auto_stop_event.clear()
 
-    SEARCH_SPIN_INTERVAL = 0.4
-    LOST_TIMEOUT         = 1.2
+    SEARCH_SPIN_INTERVAL = 0.3
+    LOST_TIMEOUT         = 0.6
 
     last_seen = 0.0
 
@@ -298,7 +298,7 @@ def autonomous_loop():
                 set_motors(SEARCH_TURN_SPEED, -SEARCH_TURN_SPEED)
                 sleep(SEARCH_SPIN_INTERVAL)
                 stop()
-                sleep(0.15)
+                sleep(0.4)
 
         sleep(0.05)
 
